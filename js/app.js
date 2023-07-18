@@ -1,7 +1,7 @@
 
 //List Drawers
 // eslint-disable-next-line no-unused-vars
-async function drawersList(usuarioId) {
+async function drawersListOld(usuarioId) {
   const $ = selector => document.querySelector(selector)
   const drawersList = $('#drawersList')
   const url = `./api/list-${usuarioId}`
@@ -15,7 +15,7 @@ async function drawersList(usuarioId) {
         <section class="card-body text-center">
         <article class="row"><section class="col"><h4><a href="drawer_view.php?id=${drawer.drawer_id}" class="text-decoration-none text-indigo">${drawer.drawer_name}</h4></a></section></article>
         <article class="row"><section class="col"><span class="badge rounded-pill bg-${drawer.category_color} ">${drawer.category_name}</span></section></article>
-        <article class="row mt-3"><section class="col"><img src="images/drawers/${drawer.drawer_image}" class="rounded-circle" width="120px" alt="${drawer.drawer_name}"></section></article>
+        <article class="row mt-3"><section class="col"><img src="images/drawers/${drawer.drawer_image}" class="img-fluid rounded-4 border border-2 border-${drawer.category_color} " width="120px" alt="${drawer.drawer_name}"></section></article>
         <article class="row mt-3">
         <section class="col text-center small fst-italic text-muted">${drawer.drawer_descriptinon}</section>
         </article>
@@ -35,6 +35,96 @@ async function drawersList(usuarioId) {
 
   drawersListText += `</article>`
   drawersList.innerHTML = drawersListText
+}
+
+// eslint-disable-next-line no-unused-vars
+async function drawersList(usuarioId) {
+  const url = `./api/list-${usuarioId}`
+
+  const table = $('#drawersListTable').DataTable( {
+    destroy: true,
+    // language: {'url': '/dataTables/Spanish.json'},
+    ajax: {'url': url,'dataSrc': ''},
+    deferRender: true,
+    stateSave: true,
+    stateDuration: 120,
+    pageLength: 20,
+    order: [],
+    paging: true,
+    responsive: true,
+    dom: 'Bfrtip',
+    orderCellsTop: true,
+    buttons: [ 
+      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
+      'print',
+
+    ],
+    columns: [
+      { 'data': 'drawer_image' , 'width': '10%' , className: 'text-center'},//0
+      { 'data': 'drawer_name', 'width': '10%' },//1
+      { 'data': 'category_name' , 'width': '10%' },//2
+      { 'data': 'drawer_descriptinon' , 'width': '10%' },//3
+      { 'data': 'items_included', 'width': '40%'  , className: 'text-start'},//4
+      { 'data': 'drawer_id' , className: 'text-center'},//5
+    ],
+    columnDefs: [
+      {
+        'targets': 0,
+        'data': 'download_link',
+        'render': function ( data, type, row ) {
+          let srcIMG = 'default.png'
+          if (row['drawer_image'].length > 0){srcIMG = `${row['drawer_image']}`}
+          const respuesta =  `<img class="border border-${row['category_color']} mb-3 rounded-circle" src="images/drawers/${srcIMG}" alt="${row['drawer_name']}" width="100px" title="${row['drawer_name']}">`
+          return respuesta
+        }
+      },
+      {
+        'targets': 1,
+        'data': 'download_link',
+        'render': function ( data, type, row ) {
+          const respuesta =  `
+          <a href="drawer_view.php?id=${row['drawer_id']}" class=" text-${row['category_color']}">${row['drawer_name']}</a>
+          `
+          return respuesta
+        }
+      },
+      {
+        'targets': 2,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<span class="badge rounded-pill bg-${row['category_color']}">${row['category_name']}</span>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 3,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<span class="fst-italic text-muted">${row['drawer_descriptinon']}</span>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 4,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta = `<span class="small fst-italic text-muted">${row['items_included']}</span>`
+          return respuesta
+        }
+      },
+
+      {
+        'targets': 5,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta = `<a href="drawer_view.php?id=${row['drawer_id']}" class="btn btn-outline-success m-2" title="View ${row['drawer_name']}"><i class="fa-regular fa-eye"></i></a>
+          <a href="drawer_del.php?id=${row['drawer_id']}" class="btn btn-outline-danger m-2" title="Delete ${row['drawer_name']}"><i class="fa-solid fa-trash-can"></i></a>`
+          return respuesta
+        }
+      }
+    ]
+  })
+
 }
 
 // eslint-disable-next-line no-unused-vars

@@ -32,8 +32,31 @@ $tarea = $parametro[0];
       drawers_drawer.drawer_location,
       drawers_drawer.drawer_image,
       drawers_drawer.drawer_descriptinon,
+      ( SELECT GROUP_CONCAT( item_name SEPARATOR ',' ) FROM drawers_items WHERE item_drawer = drawers_drawer.drawer_id ) AS items_included
+    FROM
+      drawers_drawer
+      LEFT JOIN drawers_category ON drawers_drawer.drawer_category = drawers_category.category_id 
+    WHERE
+      drawer_owner = $parametro[1]
+      AND drawer_delete = 0
+    ORDER BY
+      drawer_name";
+      break;
+    case 'view':
+      $sql = "SELECT
+      drawers_drawer.drawer_id,
+      drawers_drawer.drawer_name,
+      drawers_drawer.drawer_category,
+      drawers_drawer.drawer_owner,
+      drawers_drawer.drawer_location,
+      drawers_drawer.drawer_descriptinon,
+      drawers_drawer.drawer_image,
+      drawers_drawer.drawer_image_full,
       drawers_drawer.drawer_date,
-      drawers_drawer.drawer_update
+      drawers_drawer.drawer_update,
+      drawers_drawer.drawer_delete,
+      drawers_category.category_name,
+      drawers_category.category_color
     FROM
       drawers_drawer
       INNER JOIN
@@ -41,35 +64,11 @@ $tarea = $parametro[0];
       ON
         drawers_drawer.drawer_category = drawers_category.category_id
     WHERE
-      drawer_owner = $parametro[1] AND drawer_delete = 0 ORDER BY drawer_name";
+      drawer_id =". $parametro[1];
       break;
-      case 'view':
-        $sql = "SELECT
-        drawers_drawer.drawer_id,
-        drawers_drawer.drawer_name,
-        drawers_drawer.drawer_category,
-        drawers_drawer.drawer_owner,
-        drawers_drawer.drawer_location,
-        drawers_drawer.drawer_descriptinon,
-        drawers_drawer.drawer_image,
-        drawers_drawer.drawer_image_full,
-        drawers_drawer.drawer_date,
-        drawers_drawer.drawer_update,
-        drawers_drawer.drawer_delete,
-        drawers_category.category_name,
-        drawers_category.category_color
-      FROM
-        drawers_drawer
-        INNER JOIN
-        drawers_category
-        ON
-          drawers_drawer.drawer_category = drawers_category.category_id
-      WHERE
-        drawer_id =". $parametro[1];
-        break;
-      case 'categorylist':
-        $sql = "SELECT * FROM drawers_category ORDER BY category_name";
-        break;
+    case 'categorylist':
+      $sql = "SELECT * FROM drawers_category ORDER BY category_name";
+      break;
       case 'itemview':
         $sql = "SELECT
         drawers_items.item_id,
