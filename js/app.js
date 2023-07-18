@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 //List Drawers
-async function drawersListOld(usuarioId) {
+async function drawersListCards(usuarioId) {
   const $ = selector => document.querySelector(selector)
   const drawersList = $('#drawersList')
   const url = `./api/list-${usuarioId}`
@@ -39,8 +39,21 @@ async function drawersListOld(usuarioId) {
 }
 
 
-async function drawersList(usuarioId) {
+async function drawersListTable(usuarioId) {
   const url = `./api/list-${usuarioId}`
+  const drawersList = document.querySelector('#drawersList')
+
+  drawersList.innerHTML = `<table id="drawersListTable" class="table table-sm table-hover" style="width:100%">
+  <thead class="small">
+    <th></th>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Content</th>
+    <th>Actions</th>
+  </thead>
+  <tbody class="small"></tbody>
+</table>`
 
   const table = $('#drawersListTable').DataTable( {
     destroy: true,
@@ -198,12 +211,10 @@ async function drawerItems($drawerId, usuarioId) {
     responsive: true,
     dom: 'Bfrtip',
     orderCellsTop: true,
-    buttons: [ 'copy', 'excel',
-      { extend: 'pdf',
-        orientation: 'landscape',
-        pageSize: 'A4'
-      },
+    buttons: [
+      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
       'print',
+      'excel',
 
     ],
     columns: [
@@ -340,12 +351,9 @@ async function itemsAll(usuarioId) {
     responsive: true,
     dom: 'Bfrtip',
     orderCellsTop: true,
-    buttons: [ 'copy', 'excel',
-      { extend: 'pdf',
-        orientation: 'landscape',
-        pageSize: 'A4'
-      },
-      'print',
+    buttons: [
+      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
+      'print','excel',
 
     ],
     columns: [
@@ -367,7 +375,15 @@ async function itemsAll(usuarioId) {
         'render': function ( data, type, row) {
           let srcIMG = 'default.png'
           if (row['item_image'].length > 0){srcIMG = `${row['item_image']}`}
-          const respuesta =  `<img class="border border-teal mb-3 rounded-circle" src="images/item/${srcIMG}" alt="" width="90px">`
+          const respuesta =  `<img class="border border-${row['category_color']} mb-3 rounded-circle" src="images/item/${srcIMG}" alt="" width="90px">`
+          return respuesta
+        }
+      },
+      {
+        'targets': 1,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="text-${row['category_color']}">${row['item_name']}</a>`
           return respuesta
         }
       },
@@ -375,7 +391,15 @@ async function itemsAll(usuarioId) {
         'targets': 2,
         'data': 'download_link',
         'render': function ( data, type, row) {
-          const respuesta =  `<span class="text-${row['category_color']}">${row['category_name']}</span>`
+          const respuesta =  `<span class="badge rounded-pill bg-${row['category_color']}">${row['category_name']}</span>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 3,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<a href="drawer_view.php?id=${row['item_drawer']}" class="text-${row['category_color']}">${row['drawer_name']}</a>`
           return respuesta
         }
       },
