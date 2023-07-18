@@ -220,7 +220,7 @@ async function drawerItems($drawerId, usuarioId) {
       {
         'targets': 0,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           let srcIMG = 'default.png'
           if (row['item_image'].length > 0){srcIMG = `${row['item_image']}`}
           const respuesta =  `<img class="border border-teal mb-3 rounded-circle" src="images/item/${srcIMG}" alt="" width="60px">`
@@ -230,7 +230,7 @@ async function drawerItems($drawerId, usuarioId) {
       {
         'targets': 2,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta =  `<span class="text-${row['category_color']}">${row['category_name']}</span>`
           return respuesta
         }
@@ -238,7 +238,7 @@ async function drawerItems($drawerId, usuarioId) {
       {
         'targets': 5,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta = `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
           return respuesta
         }
@@ -246,7 +246,7 @@ async function drawerItems($drawerId, usuarioId) {
       {
         'targets': 6,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta = `<a href="item_del.php?id=${row['item_id']}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>`
           return respuesta
         }
@@ -363,7 +363,7 @@ async function itemsAll(usuarioId) {
       {
         'targets': 0,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           let srcIMG = 'default.png'
           if (row['item_image'].length > 0){srcIMG = `${row['item_image']}`}
           const respuesta =  `<img class="border border-teal mb-3 rounded-circle" src="images/item/${srcIMG}" alt="" width="90px">`
@@ -373,7 +373,7 @@ async function itemsAll(usuarioId) {
       {
         'targets': 2,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta =  `<span class="text-${row['category_color']}">${row['category_name']}</span>`
           return respuesta
         }
@@ -381,7 +381,7 @@ async function itemsAll(usuarioId) {
       {
         'targets': 6,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta = `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
           return respuesta
         }
@@ -389,7 +389,7 @@ async function itemsAll(usuarioId) {
       {
         'targets': 7,
         'data': 'download_link',
-        'render': function ( data, type, row, meta ) {
+        'render': function ( data, type, row) {
           const respuesta = `<a href="item_del.php?id=${row['item_id']}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>`
           return respuesta
         }
