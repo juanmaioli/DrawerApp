@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 
 //List Drawers
-// eslint-disable-next-line no-unused-vars
 async function drawersListOld(usuarioId) {
   const $ = selector => document.querySelector(selector)
   const drawersList = $('#drawersList')
@@ -37,7 +38,7 @@ async function drawersListOld(usuarioId) {
   drawersList.innerHTML = drawersListText
 }
 
-// eslint-disable-next-line no-unused-vars
+
 async function drawersList(usuarioId) {
   const url = `./api/list-${usuarioId}`
 
