@@ -1,5 +1,12 @@
 <?php
 include("head.php");
+if(empty($_GET['id']))
+{
+  $categoryId = 0;
+
+}else{
+  $categoryId =$_GET["id"];
+}
 ?>
 
 <!-- Container -->
@@ -43,7 +50,7 @@ include("head.php");
 <!-- /Container -->
 <?php include("footer.php"); ?>
 <script>
-  drawersListTable(<?= $usuarioId ?>)
+  drawersListTable(<?= $usuarioId ?>,<?=$categoryId?>)
   async function changeView() {
     const switchTableCard = document.querySelector('#switchTableCard')
     const switchTableCardLabel = document.querySelector('#switchTableCardLabel')
@@ -51,11 +58,11 @@ include("head.php");
     if (switchTableCard.checked) {
 
       switchTableCardLabel.innerHTML = 'Change view to table'
-      drawersListCards(<?= $usuarioId ?>)
+      drawersListCards(<?= $usuarioId ?>,<?=$categoryId?>)
 
     } else {
       switchTableCardLabel.innerHTML = 'Change view to cards'
-      drawersListTable(<?= $usuarioId ?>)
+      drawersListTable(<?= $usuarioId ?>,<?=$categoryId?>)
     }
   }
 </script>

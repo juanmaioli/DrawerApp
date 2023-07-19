@@ -22,6 +22,11 @@ $tarea = $parametro[0];
 
   switch ($tarea) {
     case 'list'://Tareas del Usuario
+      if($parametro[2] == 0){
+        $whereClause =" WHERE drawer_owner = $parametro[1] AND drawer_delete = 0 ";
+      }else{
+        $whereClause =" WHERE drawer_owner = $parametro[1] AND drawer_delete = 0 AND drawer_category = $parametro[2] ";
+      }
       $sql  = "SELECT
       drawers_category.category_name,
       drawers_category.category_color,
@@ -33,14 +38,10 @@ $tarea = $parametro[0];
       drawers_drawer.drawer_image,
       drawers_drawer.drawer_descriptinon,
       ( SELECT GROUP_CONCAT( item_name SEPARATOR ',' ) FROM drawers_items WHERE item_drawer = drawers_drawer.drawer_id ) AS items_included
-    FROM
-      drawers_drawer
-      LEFT JOIN drawers_category ON drawers_drawer.drawer_category = drawers_category.category_id 
-    WHERE
-      drawer_owner = $parametro[1]
-      AND drawer_delete = 0
-    ORDER BY
-      drawer_name";
+      FROM drawers_drawer
+      LEFT JOIN drawers_category ON drawers_drawer.drawer_category = drawers_category.category_id
+      $whereClause
+      ORDER BY drawer_name";
       break;
     case 'view':
       $sql = "SELECT
@@ -67,7 +68,20 @@ $tarea = $parametro[0];
       drawer_id =". $parametro[1];
       break;
     case 'categorylist':
-      $sql = "SELECT * FROM drawers_category ORDER BY category_name";
+      $sql = "SELECT
+      drawers_category.category_id, 
+      drawers_category.category_name, 
+      drawers_category.category_color,
+      (SELECT count(*) as total FROM drawers_items WHERE item_category = drawers_category.category_id GROUP BY item_category) as ItemsPerCategory,
+      (SELECT count(*) as total FROM drawers_drawer WHERE drawer_category = drawers_category.category_id GROUP BY drawer_category) as DrawersPerCategory
+      FROM drawers_category ORDER BY category_name";
+      break;
+    case 'categoryview':
+      $sql = "SELECT
+      drawers_category.category_id,
+      drawers_category.category_name,
+      drawers_category.category_color
+      FROM drawers_category WHERE category_id = $parametro[1]";
       break;
       case 'itemview':
         $sql = "SELECT
@@ -123,6 +137,11 @@ $tarea = $parametro[0];
           item_name ASC";
         break;
       case 'itemsall':
+        if($parametro[2] == 0){
+          $whereClause =" WHERE item_owner = $parametro[1] AND item_delete = 0";
+        }else{
+          $whereClause =" WHERE item_owner = $parametro[1] AND item_delete = 0 AND item_category = $parametro[2] ";
+        }
         $sql = "SELECT
         drawers_category.category_name, 
         drawers_category.category_color, 
@@ -137,28 +156,18 @@ $tarea = $parametro[0];
         drawers_items.item_update, 
         drawers_items.item_date, 
         drawers_drawer.drawer_name
-      FROM
-        drawers_items
-        INNER JOIN
-        drawers_category
-        ON 
-          drawers_items.item_category = drawers_category.category_id
-        INNER JOIN
-        drawers_drawer
-        ON 
-          drawers_items.item_drawer = drawers_drawer.drawer_id
-      WHERE
-        item_owner = $parametro[1] AND
-          item_delete = 0
-        ORDER BY
-          item_name ASC";
+      FROM drawers_items
+      INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id 
+      INNER JOIN drawers_drawer ON drawers_items.item_drawer = drawers_drawer.drawer_id
+      $whereClause 
+      ORDER BY item_name ASC";
         break;
       case 'search':
         $sql = "SELECT * FROM drawers_items WHERE ";
         break;
       default:$sql  = "";
   }
-
+// echo $sql ;
   if (strlen($sql) > 5){
       $result = $conn->query($sql);
       $dataCount = mysqli_num_rows($result);
@@ -173,4 +182,4 @@ $tarea = $parametro[0];
   echo json_encode($rawdata,JSON_UNESCAPED_UNICODE);
 
   $conn->close();
-}
+  }

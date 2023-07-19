@@ -39,8 +39,8 @@ async function drawersListCards(usuarioId) {
 }
 
 
-async function drawersListTable(usuarioId) {
-  const url = `./api/list-${usuarioId}`
+async function drawersListTable(usuarioId,categoryId) {
+  const url = `./api/list-${usuarioId}-${categoryId}`
   const drawersList = document.querySelector('#drawersList')
 
   drawersList.innerHTML = `<table id="drawersListTable" class="table table-sm table-hover" style="width:100%">
@@ -271,7 +271,6 @@ async function drawerItems($drawerId, usuarioId) {
 async function itemView(itemId) {
   const $ = selector => document.querySelector(selector)
   const url = `./api/itemview-${itemId}`
-  console.log('url: ', url)
   const item_title = $('#item_title')
   const item_image_full_Label = $('#item_image_full_Label')
   const item_name = $('#item_name')
@@ -321,7 +320,7 @@ async function itemView(itemId) {
 async function drawerListSelect(selecDest,usuarioId) {
   const $ = selector => document.querySelector(selector)
   const selecDestOptions = $('#'+selecDest)
-  const url = `./api/list-${usuarioId}`
+  const url = `./api/list-${usuarioId}-0`
   let options = ''
   const response = await fetch(url)
   const drawers = await response.json()
@@ -334,9 +333,9 @@ async function drawerListSelect(selecDest,usuarioId) {
   }
   selecDestOptions.innerHTML = options
 }
-// eslint-disable-next-line no-unused-vars
-async function itemsAll(usuarioId) {
-  const url = `./api/itemsall-${usuarioId}`
+
+async function itemsAll(usuarioId,categoriaId) {
+  const url = `./api/itemsall-${usuarioId}-${categoriaId}`
   // eslint-disable-next-line no-unused-vars, no-undef
   const table = $('#item_all_table').DataTable( {
     destroy: true,
@@ -421,7 +420,100 @@ async function itemsAll(usuarioId) {
       }
     ]
   })
+}
 
+async function categoriesTable() {
+  const url = `./api/categorylist-0`
+  // eslint-disable-next-line no-unused-vars, no-undef
+  const table = $('#categoriesListTable').DataTable( {
+    destroy: true,
+    // language: {'url': '/dataTables/Spanish.json'},
+    ajax: {'url': url,'dataSrc': ''},
+    deferRender: true,
+    stateSave: true,
+    stateDuration: 120,
+    pageLength: 20,
+    order: [],
+    paging: true,
+    responsive: true,
+    dom: 'Bfrtip',
+    orderCellsTop: true,
+    buttons: [
+      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
+      'print','excel',
 
+    ],
+    columns: [
+      { 'data': 'category_name' },//0
+      { 'data': 'category_color' },//1
+      { 'data': 'DrawersPerCategory' , className: 'text-center'},//2
+      { 'data': 'ItemsPerCategory' , className: 'text-center'},//3
+      { 'data': 'category_id' , className: 'text-center'},//4
+    ],
+    columnDefs: [
+      {
+        'targets': 0,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<a href="category_view.php?id=${row['category_id']}" class="text-${row['category_color']}">${row['category_name']}</a>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 1,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta =  `<span class="badge rounded-pill bg-${row['category_color']}">${row['category_color']}</span>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 2,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const DrawersPerCategory = row['DrawersPerCategory'] == null ? 0: row['DrawersPerCategory']
+          const respuesta =  `<a href="index.php?id=${row['category_id']}" class="text-decoration-none">${DrawersPerCategory}</a>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 3,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const ItemsPerCategory = row['ItemsPerCategory'] == null ? 0: row['ItemsPerCategory']
+          const respuesta =  `<a href="items.php?id=${row['category_id']}" class="text-decoration-none">${ItemsPerCategory}</a>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 4,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta = `<a href="category_view.php?id=${row['category_id']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
+          return respuesta
+        }
+      }
+    ]
+  })
+}
 
+// eslint-disable-next-line no-unused-vars
+async function categoryView(categoryId) {
+  console.log('(categoryId: ', categoryId)
+  const $ = selector => document.querySelector(selector)
+  const category_name = $('#category_name')
+  const category_color = $('#category_color')
+  const url = `./api/categoryview-${categoryId}`
+  const response = await fetch(url)
+  const category = await response.json()
+
+  if(category.length != 0 ){
+    category_name.value = category[0].category_name
+    for (let i = 0; i < category_color.options.length; i++) {
+      if (category_color.options[i].value === category[0].category_color) {
+        category_color.options[i].selected = true
+        break
+      }
+    }
+  }
 }

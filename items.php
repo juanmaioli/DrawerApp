@@ -1,5 +1,13 @@
 <?php
 include("head.php");
+
+if(empty($_GET['id']))
+{
+  $categoryId = 0;
+
+}else{
+  $categoryId =$_GET["id"];
+}
 ?>
 
 <!-- Container -->
@@ -56,6 +64,5 @@ include("head.php");
 
 <?php include("footer.php"); ?>
 <script>
-  itemsAll(<?= $usuarioId ?>)
-  
+  itemsAll(<?= $usuarioId ?>,<?=$categoryId?>)
 </script>
