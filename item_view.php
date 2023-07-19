@@ -29,14 +29,18 @@ $drawerId = $_GET['did'];
                 <form action="item_img.php" method="post" enctype="multipart/form-data">
                   <input id="item_id" name="item_id" type="hidden" value="<?= $itemId?>">
                   <input id="item_drawer_img" name="item_drawer_img" type="hidden" value="<?= $drawerId?>">
-                  <label for="file-upload" class="custom-file-upload btn btn-indigo m-2">
+                  <label for="file-upload" class="custom-file-upload btn btn-indigo">
                   <i class="fa-regular fa-cloud-upload-alt"></i>&nbsp;Change Image</label>
                   <input id="file-upload" name="file-upload" type="file" accept=".jpeg, .jpg" onChange="this.form.submit()">
                 </form>
                 </section>
                 <section class="col">
-                  <a id="searchImage" href='https://www.google.com/search?q= &source=lnms&tbm=isch' class='btn btn-primary m-2' target='_blank'>
+                  <a id="searchImage" href='https://www.google.com/search?q= &source=lnms&tbm=isch' class='btn btn-primary' target='_blank'>
                   <i class="fa-regular fa-search"></i>&nbsp;Search Image</a>
+                </section>
+                <section class="col">
+                  <a id="searchML" href='https://www.google.com/search?q= &source=lnms&tbm=isch' class='btn btn-yellow' target='_blank'>
+                  <i class="fa-brands fa-shopify"></i>&nbsp;MercadoLibre</a>
                 </section>
                 <!-- <section class="col">
                   <a id="searchPdf" href='https://www.google.com/search?q= &source=lnms&tbm=isch' class='btn btn-primary m-2' target='_blank'>
@@ -125,7 +129,7 @@ $drawerId = $_GET['did'];
 
 <?php include("footer.php"); ?>
 <script>
-  categoryList('item_category')
-  drawerListSelect('item_drawer',<?= $usuarioId ?>)
-  itemView(<?= $itemId?>)
+  // categoryList('item_category')
+  // drawerListSelect('item_drawer',<?= $usuarioId ?>)
+  itemView(<?= $itemId?>,<?= $usuarioId ?>)
 </script>

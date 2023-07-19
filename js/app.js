@@ -2,10 +2,10 @@
 /* eslint-disable no-unused-vars */
 
 //List Drawers
-async function drawersListCards(usuarioId) {
+async function drawersListCards(usuarioId,categoryId) {
   const $ = selector => document.querySelector(selector)
   const drawersList = $('#drawersList')
-  const url = `./api/list-${usuarioId}`
+  const url = `./api/list-${usuarioId}-${categoryId}`
   const response = await fetch(url)
   const drawers = await response.json()
   let drawersListText = `<article class="row">`
@@ -155,6 +155,7 @@ async function drawerView(drawerId) {
   const drawer_card = $('#drawer_card')
   const drawer_card_items = $('#drawer_card_items')
   const url = `./api/view-${drawerId}`
+  const url_category = `./api/categorylist-0`
   const response = await fetch(url)
   const drawer = await response.json()
   if(drawer.length != 0 ){
@@ -168,13 +169,20 @@ async function drawerView(drawerId) {
     drawer_image.classList.add(`border-${drawer[0].category_color}`)
     drawer_image.src = `images/drawers/${drawer[0].drawer_image}`
     drawer_image_full_src.src = `images/drawers/${drawer[0].drawer_image_full}`
-
-    for (let i = 0; i < drawer_category.options.length; i++) {
-      if (drawer_category.options[i].value === drawer[0].drawer_category) {
-        drawer_category.options[i].selected = true
-        break
-      }
+    drawer_category.innerHTML=''
+    const rtaCategories = await fetch(url_category)
+    const listCategories = await rtaCategories.json()
+    for(const category of listCategories){
+      const selectedTag = category.category_id == drawer[0].drawer_category ? ' selected':''
+      drawer_category.innerHTML += `<option class='text-${category.category_color}' value="${category.category_id}" ${selectedTag}>${category.category_name}</option>`
     }
+
+    // for (let i = 0; i < drawer_category.options.length; i++) {
+    //   if (drawer_category.options[i].value === drawer[0].drawer_category) {
+    //     drawer_category.options[i].selected = true
+    //     break
+    //   }
+    // }
   }else{
     // window.location.href ='index.php'
   }
@@ -268,9 +276,11 @@ async function drawerItems($drawerId, usuarioId) {
 }
 
 // eslint-disable-next-line no-unused-vars
-async function itemView(itemId) {
+async function itemView(itemId,usuarioId) {
   const $ = selector => document.querySelector(selector)
   const url = `./api/itemview-${itemId}`
+  const url_category = `./api/categorylist-0`
+  const url_drawer = `./api/list-${usuarioId}-0`
   const item_title = $('#item_title')
   const item_image_full_Label = $('#item_image_full_Label')
   const item_name = $('#item_name')
@@ -282,6 +292,7 @@ async function itemView(itemId) {
   const item_card = $('#item_card')
   const item_drawer = $('#item_drawer')
   const searchImage = $('#searchImage')
+  const searchML = $('#searchML')
   // const searchPdf = $('#searchPdf')
 
   const response = await fetch(url)
@@ -297,19 +308,23 @@ async function itemView(itemId) {
     item_image.src = `images/item/${item[0].item_image}`
     item_image_full_src.src = `images/item/${item[0].item_image}`
     searchImage.href = `https://www.google.com/search?q=${item[0].item_descrption}&source=lnms&tbm=isch`
-    // searchPdf.href = `https://www.google.com/search?q=filetype%3Apdf+${item[0].item_descrption}`
+    searchML.href = `https://listado.mercadolibre.com.ar/${item[0].item_descrption}#D[A:${item[0].item_descrption}]`
+    item_category.innerHTML = ''
+    item_drawer.innerHTML = ''
 
-    for (let i = 0; i < item_category.options.length; i++) {
-      if (item_category.options[i].value === item[0].item_category) {
-        item_category.options[i].selected = true
-        break
-      }
+
+    const rtaCategories = await fetch(url_category)
+    const listCategories = await rtaCategories.json()
+    for(const category of listCategories){
+      const selectedTag = category.category_id == item[0].item_category ? ' selected':''
+      item_category.innerHTML += `<option class='text-${category.category_color}' value="${category.category_id}" ${selectedTag}>${category.category_name}</option>`
     }
-    for (let i = 0; i < item_drawer.options.length; i++) {
-      if (item_drawer.options[i].value === item[0].item_drawer) {
-        item_drawer.options[i].selected = true
-        break
-      }
+
+    const rtaDrawers = await fetch(url_drawer)
+    const listDrawers = await rtaDrawers.json()
+    for(const drawer of listDrawers ){
+      const selectedTag = drawer.drawer_id == item[0].item_drawer ? ' selected':''
+      item_drawer.innerHTML += `<option class='text-${drawer.category_color}' value="${drawer.drawer_id}" ${selectedTag}>${drawer.drawer_name}</option>`
     }
   }else{
     // window.location.href ='index.php'

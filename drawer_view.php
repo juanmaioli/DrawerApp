@@ -136,7 +136,7 @@ $drawerId = $_GET['id'];
 
 <?php include("footer.php"); ?>
 <script>
-  categoryList('drawer_category')
+  // categoryList('drawer_category')
   drawerView(<?= $drawerId ?>)
   drawerItems(<?= $drawerId ?>,<?= $usuarioId ?>)
 </script>
