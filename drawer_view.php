@@ -85,7 +85,6 @@ $drawerId = $_GET['id'];
     </section>
     <section class="col-md-1"></section>
   </article>
-
   <article class="row mt-4">
     <section class="col-md-1"></section>
     <section class="col-md-10">
@@ -106,6 +105,7 @@ $drawerId = $_GET['id'];
             <th>Category</th>
             <th>Description</th>
             <th>Amount</th>
+            <th>Price U$S</th>
             <th>View</th>
             <th>Delete</th>
           </thead>

@@ -15,6 +15,11 @@ $item_descriptinon = $_POST["item_descriptinon"];
 $item_category = $_POST["item_category"];
 $item_drawer = $_POST["item_drawer"];
 
+if(empty($_POST['item_price'])){
+  $item_price = 0;
+}else{
+  $item_price =$_POST["item_price"];
+}
 
 $item_id_status = $conn->escape_string($item_id_status );
 $item_owner = $conn->escape_string($item_owner );
@@ -27,18 +32,18 @@ $item_drawer = $conn->escape_string($item_drawer);
 $item_name = ucwords(strtolower($item_name));
 $item_descriptinon  = ucwords(strtolower($item_descriptinon));
 
-echo "item_id_status: " . $item_id_status . '<br>';
-echo "item_name: " . $item_name . '<br>';
-echo "item_amount: " . $item_amount . '<br>';
-echo "item_descriptinon: " . $item_descriptinon . '<br>';
-echo "item_category: " . $item_category . '<br>';
-echo "item_drawer: " . $item_drawer . '<br>';
+// echo "item_id_status: " . $item_id_status . '<br>';
+// echo "item_name: " . $item_name . '<br>';
+// echo "item_amount: " . $item_amount . '<br>';
+// echo "item_descriptinon: " . $item_descriptinon . '<br>';
+// echo "item_category: " . $item_category . '<br>';
+// echo "item_drawer: " . $item_drawer . '<br>';
 
-$sql_Update = "UPDATE drawers_items SET item_name='$item_name', item_amount = '$item_amount', item_descrption = '$item_descriptinon',item_category = '$item_category', item_drawer = '$item_drawer' WHERE item_id = " . $item_id_status;
+$sql_Update = "UPDATE drawers_items SET item_name='$item_name', item_amount = '$item_amount', item_descrption = '$item_descriptinon',item_category = '$item_category', item_drawer = '$item_drawer',item_price = $item_price WHERE item_id = " . $item_id_status;
 // echo $sql_Update;
 $sql_Add = "INSERT INTO drawers_items (item_name, item_amount, item_descrption,item_category,item_owner,item_drawer)
 VALUES('$item_name', '$item_amount', '$item_descriptinon',$item_category,$item_owner,$item_drawer)";
-echo $sql_Add;
+// echo $sql_Add;
 
 
 if($item_id_status == 0){

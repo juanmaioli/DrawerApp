@@ -231,8 +231,9 @@ async function drawerItems($drawerId, usuarioId) {
       { 'data': 'category_name' },//2
       { 'data': 'item_descrption' },//3
       { 'data': 'item_amount' , className: 'text-end'},//4
-      { 'data': 'item_id' , className: 'text-center'},//5
+      { 'data': 'item_price' , className: 'text-end'},//5
       { 'data': 'item_id' , className: 'text-center'},//6
+      { 'data': 'item_id' , className: 'text-center'},//7
 
     ],
     columnDefs: [
@@ -256,7 +257,7 @@ async function drawerItems($drawerId, usuarioId) {
         }
       },
       {
-        'targets': 5,
+        'targets': 6,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
@@ -264,7 +265,7 @@ async function drawerItems($drawerId, usuarioId) {
         }
       },
       {
-        'targets': 6,
+        'targets': 7,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="item_del.php?id=${row['item_id']}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>`
@@ -278,21 +279,22 @@ async function drawerItems($drawerId, usuarioId) {
 // eslint-disable-next-line no-unused-vars
 async function itemView(itemId,usuarioId) {
   const $ = selector => document.querySelector(selector)
+  const item_amount = $('#item_amount')
+  const item_card = $('#item_card')
+  const item_category = $('#item_category')
+  const item_descriptinon = $('#item_descriptinon')
+  const item_drawer = $('#item_drawer')
+  const item_image = $('#item_image')
+  const item_image_full_Label = $('#item_image_full_Label')
+  const item_image_full_src = $('#item_image_full_src')
+  const item_name = $('#item_name')
+  const item_price = $('#item_price')
+  const item_title = $('#item_title')
+  const searchImage = $('#searchImage')
+  const searchML = $('#searchML')
   const url = `./api/itemview-${itemId}`
   const url_category = `./api/categorylist-0`
   const url_drawer = `./api/list-${usuarioId}-0`
-  const item_title = $('#item_title')
-  const item_image_full_Label = $('#item_image_full_Label')
-  const item_name = $('#item_name')
-  const item_amount = $('#item_amount')
-  const item_image = $('#item_image')
-  const item_image_full_src = $('#item_image_full_src')
-  const item_descriptinon = $('#item_descriptinon')
-  const item_category = $('#item_category')
-  const item_card = $('#item_card')
-  const item_drawer = $('#item_drawer')
-  const searchImage = $('#searchImage')
-  const searchML = $('#searchML')
   // const searchPdf = $('#searchPdf')
 
   const response = await fetch(url)
@@ -301,6 +303,7 @@ async function itemView(itemId,usuarioId) {
     item_title.innerHTML = item[0].item_name
     item_image_full_Label.innerHTML = item[0].item_name
     item_name.value = item[0].item_name
+    item_price.value = item[0].item_price
     item_amount.value = item[0].item_amount
     item_descriptinon.value = item[0].item_descrption
     item_card.classList.add(`shadow-${item[0].category_color}-blur`)
@@ -377,8 +380,9 @@ async function itemsAll(usuarioId,categoriaId) {
       { 'data': 'drawer_name' },//3
       { 'data': 'item_descrption' },//4
       { 'data': 'item_amount' , className: 'text-center'},//5
-      { 'data': 'item_id' , className: 'text-center'},//6
+      { 'data': 'item_price' , className: 'text-center'},//6
       { 'data': 'item_id' , className: 'text-center'},//7
+      { 'data': 'item_id' , className: 'text-center'},//8
 
     ],
     columnDefs: [
@@ -418,7 +422,7 @@ async function itemsAll(usuarioId,categoriaId) {
         }
       },
       {
-        'targets': 6,
+        'targets': 7,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
@@ -426,7 +430,7 @@ async function itemsAll(usuarioId,categoriaId) {
         }
       },
       {
-        'targets': 7,
+        'targets': 8,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="item_del.php?id=${row['item_id']}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>`
