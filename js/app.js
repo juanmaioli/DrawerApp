@@ -50,6 +50,7 @@ async function drawersListTable(usuarioId,categoryId) {
     <th>Category</th>
     <th>Description</th>
     <th>Content</th>
+    <th>Total Items</th>
     <th>Actions</th>
   </thead>
   <tbody class="small"></tbody>
@@ -70,7 +71,7 @@ async function drawersListTable(usuarioId,categoryId) {
     orderCellsTop: true,
     buttons: [ 
       { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
-      'print',
+      'print','excel',
 
     ],
     columns: [
@@ -79,7 +80,8 @@ async function drawersListTable(usuarioId,categoryId) {
       { 'data': 'category_name' , 'width': '10%' },//2
       { 'data': 'drawer_descriptinon' , 'width': '10%' },//3
       { 'data': 'items_included', 'width': '40%'  , className: 'text-start'},//4
-      { 'data': 'drawer_id' , className: 'text-center'},//5
+      { 'data': 'items_total', className: 'text-center'},//5
+      { 'data': 'drawer_id' , className: 'text-center'},//6
     ],
     columnDefs: [
       {
@@ -97,7 +99,8 @@ async function drawersListTable(usuarioId,categoryId) {
         'data': 'download_link',
         'render': function ( data, type, row ) {
           const respuesta =  `
-          <a href="drawer_view.php?id=${row['drawer_id']}" class=" text-${row['category_color']}">${row['drawer_name']}</a>
+          <a href="drawer_view.php?id=${row['drawer_id']}" class=" text-${row['category_color']}">${row['drawer_name']}</a><br>
+          <span class="fst-italic text-muted small">(${row['drawer_location']})</span>
           `
           return respuesta
         }
@@ -122,13 +125,23 @@ async function drawersListTable(usuarioId,categoryId) {
         'targets': 4,
         'data': 'download_link',
         'render': function ( data, type, row) {
-          const respuesta = `<span class="small fst-italic text-muted">${row['items_included']}</span>`
+          const drawerContent = row['items_included'] == null ? 'Empty':row['items_included']
+          const respuesta = `<span class="small fst-italic text-muted">${drawerContent}</span>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 5,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta = row['items_total'] == null ? 0:row['items_total']
+          // const respuesta = `<span class="small fst-italic text-muted">${drawerItems}</span>`
           return respuesta
         }
       },
 
       {
-        'targets': 5,
+        'targets': 6,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="drawer_view.php?id=${row['drawer_id']}" class="btn btn-outline-success m-2" title="View ${row['drawer_name']}"><i class="fa-regular fa-eye"></i></a>

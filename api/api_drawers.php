@@ -37,7 +37,8 @@ $tarea = $parametro[0];
       drawers_drawer.drawer_location,
       drawers_drawer.drawer_image,
       drawers_drawer.drawer_descriptinon,
-      ( SELECT GROUP_CONCAT( item_name SEPARATOR ',' ) FROM drawers_items WHERE item_drawer = drawers_drawer.drawer_id ) AS items_included
+      ( SELECT GROUP_CONCAT( item_name SEPARATOR ',' ) FROM drawers_items WHERE item_drawer = drawers_drawer.drawer_id ) AS items_included,
+      (SELECT sum(item_amount) as total FROM drawers_items WHERE item_drawer = drawers_drawer.drawer_id GROUP BY item_drawer) AS items_total
       FROM drawers_drawer
       LEFT JOIN drawers_category ON drawers_drawer.drawer_category = drawers_category.category_id
       $whereClause
