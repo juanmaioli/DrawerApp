@@ -549,3 +549,37 @@ async function categoryView(categoryId) {
     }
   }
 }
+
+async function getStatistics(usuarioId,totalRecords) {
+  const $ = selector => document.querySelector(selector)
+  const statisticsCategoryPrice = $('#statisticsCategoryPrice')
+  const statisticsPrice = $('#statisticsPrice')
+  const statisticsCategoryTotal = $('#statisticsCategoryTotal')
+  const urlPrice = `./api/totalprice-${totalRecords}`
+  const responsePrice = await fetch(urlPrice)
+  const priceToJson = await responsePrice.json()
+  statisticsPrice.innerHTML = `<h1 class="text-white display-3"><i class="fa-regular fa-sack-dollar"></i>&nbsp;Full Value: <br>$${priceToJson[0].total}</h1>`
+
+  const urlCategoryPrice  = `./api/categoryprice-${totalRecords}`
+  const responseCategoryPrice = await fetch(urlCategoryPrice)
+  const categoryPriceToJson = await responseCategoryPrice.json()
+  let bodyTable = ''
+  bodyTable = `<h5 class="text-white mb-3">Value By Category</h5><table class="bg-indigo text-white text-center" style="width:100%">
+  <thead class="small"><th class="text-center" style="width:80%">Category</th><th class="text-center" colspan="2">Price U$S</th></thead><tbody class="small">`
+  for(const fila of categoryPriceToJson){
+    bodyTable  +=`<tr class="border-bottom"><td class="text-start">${fila.Categoria}</td><td class="text-start" style="width:5%">$</td><td class="text-end">${fila.category_price}</td></tr>`
+  }
+  statisticsCategoryPrice.innerHTML += `${bodyTable}</tbody></table>`
+
+  const urlCategoryTotal  = `./api/categorytotal-${totalRecords}`
+  const responseCategoryTotal = await fetch(urlCategoryTotal)
+  const categoryTotalToJson = await responseCategoryTotal.json()
+
+  bodyTable = `<h5 class="text-white mb-3">Items By Category</h5><table class="bg-indigo text-white text-center" style="width:100%">
+  <thead class="small"><th class="text-center">Category</th><th class="text-center">Total Items</th></thead><tbody class="small">`
+  for(const fila of categoryTotalToJson){
+    bodyTable  +=`<tr class="border-bottom"><td class="text-start">${fila.Categoria}</td><td class="text-end">${fila.Total}</td></tr>`
+  }
+  statisticsCategoryTotal.innerHTML += `${bodyTable}</tbody></table>`
+
+}

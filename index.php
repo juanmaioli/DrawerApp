@@ -11,6 +11,27 @@ if(empty($_GET['id']))
 
 <!-- Container -->
 <main class="container-fluid">
+  <article class="row ms-2 me-2">
+    <section class="col">
+          <article class="row">
+            <section class="col-md-4 p-4">
+              <article class="card bg-indigo card-200">
+                <section class="card-body text-center" id="statisticsPrice"></section>
+              </article>
+            </section>
+            <section class="col-md-4 p-4">
+            <article class="card bg-indigo card-200">
+                <section class="card-body" id="statisticsCategoryPrice"></section>
+              </article>
+            </section>
+            <section class="col-md-4 p-4">
+            <article class="card bg-indigo card-200">
+                <section class="card-body" id="statisticsCategoryTotal"></section>
+              </article>
+            </section>
+          </article>
+    </section>
+  </article>
 
   <article class="row ms-2 me-2">
     <section class="col">
@@ -29,18 +50,6 @@ if(empty($_GET['id']))
           </article>
         </section>
         <section class="card-body" id="drawersList">
-          <!-- <table id="drawersListTable" class="table table-sm table-hover" style="width:100%">
-          <thead class="small">
-            <th></th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Content</th>
-            <th>Actions</th>
-          </thead>
-          <tbody class="small">
-          </tbody>
-        </table> -->
         </section>
       </article>
     </section>
@@ -51,15 +60,13 @@ if(empty($_GET['id']))
 <?php include("footer.php"); ?>
 <script>
   drawersListTable(<?= $usuarioId ?>,<?=$categoryId?>)
+  getStatistics(<?= $usuarioId ?>,5)
   async function changeView() {
     const switchTableCard = document.querySelector('#switchTableCard')
     const switchTableCardLabel = document.querySelector('#switchTableCardLabel')
-
     if (switchTableCard.checked) {
-
       switchTableCardLabel.innerHTML = 'Change view to table'
       drawersListCards(<?= $usuarioId ?>,<?=$categoryId?>)
-
     } else {
       switchTableCardLabel.innerHTML = 'Change view to cards'
       drawersListTable(<?= $usuarioId ?>,<?=$categoryId?>)

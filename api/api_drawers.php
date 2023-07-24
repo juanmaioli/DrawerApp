@@ -169,6 +169,15 @@ $tarea = $parametro[0];
       case 'search':
         $sql = "SELECT * FROM drawers_items WHERE ";
         break;
+      case 'totalprice':
+        $sql = "SELECT sum(total_price) as total FROM total_price";
+        break;
+      case 'categoryprice':
+        $sql = "SELECT drawers_category.category_name as Categoria, (Select sum(total_price) from total_price where category = drawers_category.category_id GROUP BY category) as category_price FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by category_price desc limit $parametro[1]";
+        break;
+      case 'categorytotal':
+        $sql = "SELECT drawers_category.category_name as Categoria, sum(item_amount) AS Total FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by total desc limit $parametro[1]";
+        break;
       default:$sql  = "";
   }
 // echo $sql ;
