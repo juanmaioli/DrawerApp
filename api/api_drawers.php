@@ -73,7 +73,7 @@ $tarea = $parametro[0];
       drawers_category.category_id, 
       drawers_category.category_name, 
       drawers_category.category_color,
-      (SELECT count(*) as total FROM drawers_items WHERE item_category = drawers_category.category_id GROUP BY item_category) as ItemsPerCategory,
+      (SELECT sum(item_amount) as total FROM drawers_items WHERE item_category = drawers_category.category_id) as ItemsPerCategory,
       (SELECT count(*) as total FROM drawers_drawer WHERE drawer_category = drawers_category.category_id GROUP BY drawer_category) as DrawersPerCategory
       FROM drawers_category ORDER BY category_name";
       break;
