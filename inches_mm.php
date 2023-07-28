@@ -35,13 +35,44 @@ $conn->close();
 ?>
 
 <!-- Container -->
+<article class="row ms-2 me-2 mb-3">
+  <section class="col">
+    <article class="card shadow-indigo-sm">
+      <section class="card-header">
+        <article class="row">
+          <section class="col-md-3 text-start">
+            <h3 class="text-indigo">Convert MM to Inches</h3>
+          </section>
+          <section class="col-md-9 text-end"></section>
+        </article>
+      </section>
+      <section class="card-body">
+        <article class="row">
+          <section class="col-md-1"></section>
+          <section class="col-md-2">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Millimeters" aria-label="Millimeters" id="millimetersIn" name="millimetersIn" onkeyup="mmToFractionInches(this.value)" value="0">
+            <span class="input-group-text bg-indigo text-white">mm</span>
+          </div>
+          </section>
+          <section class="col-md-1"></section>
+          <section class="col-md-3"><h4 id="thousandthsOut">Thousandths of an Inch: 0"</h4></section>
+          <section class="col-md-1"></section>
+          <section class="col-md-3"><h4 id="fractionOut">Inches Fraction: 0</h4></section>
+          <section class="col-md-1"></section>
+        </article>
+      </section>
+    </article>
+  </section>
+</article>
+</main>
 <article class="row ms-2 me-2">
   <section class="col">
     <article class="card shadow-indigo-sm">
       <section class="card-header">
         <article class="row">
           <section class="col-md-3 text-start">
-            <h3 class="text-indigo">Inches to MM</h3>
+            <h3 class="text-indigo">Table Inches to MM</h3>
           </section>
           <section class="col-md-9 text-end"></section>
         </article>
