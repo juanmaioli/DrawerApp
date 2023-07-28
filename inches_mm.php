@@ -6,7 +6,7 @@ mysqli_set_charset($conn, 'utf8');
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 
-$sql = "SELECT inches_mm_id,inches_mm_mm,inches_mm_inches,inches_mm_ml_inches,inches_mm_tool FROM drawers_inches_mm";
+$sql = "SELECT inches_mm_id,inches_mm_mm,inches_mm_inches,inches_mm_ml_inches,inches_mm_tool FROM drawers_inches_mm ORDER BY inches_mm_mm";
 $result = $conn->query($sql);
 $table_inches = '';
 if (mysqli_num_rows($result) == true) {
