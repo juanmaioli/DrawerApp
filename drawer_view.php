@@ -106,6 +106,7 @@ $drawerId = $_GET['id'];
             <th>Description</th>
             <th>Amount</th>
             <th>Price U$S</th>
+            <th>Total Items Price U$S</th>
             <th>View</th>
             <th>Delete</th>
           </thead>

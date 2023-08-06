@@ -51,6 +51,7 @@ async function drawersListTable(usuarioId,categoryId) {
     <th>Description</th>
     <th>Content</th>
     <th>Total Items</th>
+    <th>Drawer Price U$S</th>
     <th>Actions</th>
   </thead>
   <tbody class="small"></tbody>
@@ -81,7 +82,8 @@ async function drawersListTable(usuarioId,categoryId) {
       { 'data': 'drawer_descriptinon' , 'width': '10%' },//3
       { 'data': 'items_included', 'width': '40%'  , className: 'text-start'},//4
       { 'data': 'items_total', className: 'text-center'},//5
-      { 'data': 'drawer_id' , className: 'text-center'},//6
+      { 'data': 'drawer_price' , className: 'text-center'},//6
+      { 'data': 'drawer_id' , className: 'text-center'},//7
     ],
     columnDefs: [
       {
@@ -141,7 +143,7 @@ async function drawersListTable(usuarioId,categoryId) {
       },
 
       {
-        'targets': 6,
+        'targets': 7,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="drawer_view.php?id=${row['drawer_id']}" class="btn btn-outline-success m-2" title="View ${row['drawer_name']}"><i class="fa-regular fa-eye"></i></a>
@@ -245,8 +247,9 @@ async function drawerItems($drawerId, usuarioId) {
       { 'data': 'item_descrption' },//3
       { 'data': 'item_amount' , className: 'text-end'},//4
       { 'data': 'item_price' , className: 'text-end'},//5
-      { 'data': 'item_id' , className: 'text-center'},//6
+      { 'data': 'item_price' , className: 'text-end'},//6
       { 'data': 'item_id' , className: 'text-center'},//7
+      { 'data': 'item_id' , className: 'text-center'},//8
 
     ],
     columnDefs: [
@@ -273,12 +276,20 @@ async function drawerItems($drawerId, usuarioId) {
         'targets': 6,
         'data': 'download_link',
         'render': function ( data, type, row) {
+          const respuesta = row['item_amount'] * row['item_price']
+          return respuesta.toFixed(2)
+        }
+      },
+      {
+        'targets': 7,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
           const respuesta = `<a href="item_view.php?id=${row['item_id']}&did=${row['item_drawer']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`
           return respuesta
         }
       },
       {
-        'targets': 7,
+        'targets': 8,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="item_del.php?id=${row['item_id']}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>`
