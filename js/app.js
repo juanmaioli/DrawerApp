@@ -578,7 +578,11 @@ async function getStatistics(usuarioId,totalRecords) {
   bodyTable = `<h5 class="text-white mb-3">Value By Category</h5><table class="bg-indigo text-white text-center" style="width:100%">
   <thead class="small"><th class="text-center" style="width:80%">Category</th><th class="text-center" colspan="2">Price U$S</th></thead><tbody class="small">`
   for(const fila of categoryPriceToJson){
-    bodyTable  +=`<tr class="border-bottom"><td class="text-start">${fila.Categoria}</td><td class="text-start" style="width:5%">$</td><td class="text-end">${fila.category_price}</td></tr>`
+    bodyTable  +=`<tr class="border-bottom"><td class="text-start">
+    <a href='items.php?id=${fila.ID}' class="text-white text-decoration-none">${fila.Categoria}</a>
+    </td><td class="text-start" style="width:5%">$</td><td class="text-end">
+    <a href='items.php?id=${fila.ID}' class="text-white text-decoration-none">${fila.category_price}</a>
+    </td></tr>`
   }
   statisticsCategoryPrice.innerHTML += `${bodyTable}</tbody></table>`
 
@@ -589,7 +593,13 @@ async function getStatistics(usuarioId,totalRecords) {
   bodyTable = `<h5 class="text-white mb-3">Items By Category</h5><table class="bg-indigo text-white text-center" style="width:100%">
   <thead class="small"><th class="text-center">Category</th><th class="text-center">Total Items</th></thead><tbody class="small">`
   for(const fila of categoryTotalToJson){
-    bodyTable  +=`<tr class="border-bottom"><td class="text-start">${fila.Categoria}</td><td class="text-end">${fila.Total}</td></tr>`
+    bodyTable  +=`<tr class="border-bottom">
+    <td class="text-start">
+    <a href='items.php?id=${fila.ID}' class="text-white text-decoration-none">${fila.Categoria}</a>
+    </td>
+    <td class="text-end">
+    <a href='items.php?id=${fila.ID}' class="text-white text-decoration-none">${fila.Total}</a>
+    ${fila.Total}</td></tr>`
   }
   statisticsCategoryTotal.innerHTML += `${bodyTable}</tbody></table>`
 

@@ -71,8 +71,8 @@ $tarea = $parametro[0];
       break;
     case 'categorylist':
       $sql = "SELECT
-      drawers_category.category_id, 
-      drawers_category.category_name, 
+      drawers_category.category_id,
+      drawers_category.category_name,
       drawers_category.category_color,
       (SELECT sum(item_amount) as total FROM drawers_items WHERE item_category = drawers_category.category_id) as ItemsPerCategory,
       (SELECT count(*) as total FROM drawers_drawer WHERE drawer_category = drawers_category.category_id GROUP BY drawer_category) as DrawersPerCategory
@@ -147,24 +147,24 @@ $tarea = $parametro[0];
           $whereClause =" WHERE item_owner = $parametro[1] AND item_delete = 0 AND item_category = $parametro[2] ";
         }
         $sql = "SELECT
-        drawers_category.category_name, 
-        drawers_category.category_color, 
-        drawers_items.item_id, 
-        drawers_items.item_drawer, 
-        drawers_items.item_name, 
-        drawers_items.item_image, 
-        drawers_items.item_amount, 
+        drawers_category.category_name,
+        drawers_category.category_color,
+        drawers_items.item_id,
+        drawers_items.item_drawer,
+        drawers_items.item_name,
+        drawers_items.item_image,
+        drawers_items.item_amount,
         drawers_items.item_price,
-        drawers_items.item_descrption, 
-        drawers_items.item_category, 
-        drawers_items.item_owner, 
-        drawers_items.item_update, 
-        drawers_items.item_date, 
+        drawers_items.item_descrption,
+        drawers_items.item_category,
+        drawers_items.item_owner,
+        drawers_items.item_update,
+        drawers_items.item_date,
         drawers_drawer.drawer_name
       FROM drawers_items
-      INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id 
+      INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id
       INNER JOIN drawers_drawer ON drawers_items.item_drawer = drawers_drawer.drawer_id
-      $whereClause 
+      $whereClause
       ORDER BY item_name ASC";
         break;
       case 'search':
@@ -174,10 +174,10 @@ $tarea = $parametro[0];
         $sql = "SELECT sum(total_price) as total FROM total_price";
         break;
       case 'categoryprice':
-        $sql = "SELECT drawers_category.category_name as Categoria, (Select sum(total_price) from total_price where category = drawers_category.category_id GROUP BY category) as category_price FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by category_price desc limit $parametro[1]";
+        $sql = "SELECT drawers_category.category_name AS Categoria, drawers_category.category_id AS ID, ( SELECT sum( total_price ) FROM total_price WHERE category = drawers_category.category_id GROUP BY category ) AS category_price FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category ORDER BY category_price DESC LIMIT $parametro[1]";
         break;
       case 'categorytotal':
-        $sql = "SELECT drawers_category.category_name as Categoria, sum(item_amount) AS Total FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by total desc limit $parametro[1]";
+        $sql = "SELECT drawers_category.category_name as Categoria, drawers_category.category_id AS ID,sum(item_amount) AS Total FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by total desc limit $parametro[1]";
         break;
       default:$sql  = "";
   }
