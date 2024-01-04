@@ -35,6 +35,7 @@ $conn->close();
 ?>
 
 <!-- Container -->
+<main class="container-fluid">
 <article class="row ms-2 me-2 mb-3">
   <section class="col">
     <article class="card shadow-indigo-sm">
@@ -65,7 +66,7 @@ $conn->close();
     </article>
   </section>
 </article>
-</main>
+
 <article class="row ms-2 me-2">
   <section class="col">
     <article class="card shadow-indigo-sm">

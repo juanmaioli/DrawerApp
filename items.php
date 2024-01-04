@@ -12,9 +12,8 @@ if(empty($_GET['id']))
 
 <!-- Container -->
 <main class="container-fluid">
-  <article class="row">
-    <section class="col-md-1"></section>
-    <section class="col-md-10">
+  <article class="row  ms-2 me-2">
+    <section class="col">
       <article class="card" id="item_card">
         <section class="card-header">
           <article class="row">
@@ -41,10 +40,8 @@ if(empty($_GET['id']))
             </tbody>
           </table>
         </section>
-
       </article>
     </section>
-    <section class="col-md-1"></section>
   </article>
 </main>
 <!-- /Container -->

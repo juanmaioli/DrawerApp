@@ -70,10 +70,11 @@ async function drawersListTable(usuarioId,categoryId) {
     responsive: true,
     dom: 'Bfrtip',
     orderCellsTop: true,
-    buttons: [ 
-      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
-      'print','excel',
-
+    buttons: [
+      {extend:'copy',className: 'btn btn-darkblue',text:'<i class="fa-regular fa-copy"></i> Copy' },
+      {extend: 'excel',className: 'btn btn-green',text:'<i class="fa-regular fa-file-excel"></i> Excel'},
+      {extend:'pdf',className: 'btn btn-danger',text:'<i class="fa-regular fa-file-pdf"></i> Pdf',orientation: 'landscape',pageSize: 'A4'},
+      {extend:'print',className: 'btn btn-indigo',text:'<i class="fa-regular fa-print"></i> Print'}
     ],
     columns: [
       { 'data': 'drawer_image' , 'width': '10%' , className: 'text-center'},//0
@@ -235,10 +236,10 @@ async function drawerItems($drawerId, usuarioId) {
     dom: 'Bfrtip',
     orderCellsTop: true,
     buttons: [
-      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
-      'print',
-      'excel',
-
+      {extend:'copy',className: 'btn btn-darkblue',text:'<i class="fa-regular fa-copy"></i> Copy' },
+      {extend: 'excel',className: 'btn btn-green',text:'<i class="fa-regular fa-file-excel"></i> Excel'},
+      {extend:'pdf',className: 'btn btn-danger',text:'<i class="fa-regular fa-file-pdf"></i> Pdf',orientation: 'landscape',pageSize: 'A4'},
+      {extend:'print',className: 'btn btn-indigo',text:'<i class="fa-regular fa-print"></i> Print'}
     ],
     columns: [
       { 'data': 'item_image' , className: 'text-center'},//0
@@ -393,9 +394,10 @@ async function itemsAll(usuarioId,categoriaId) {
     dom: 'Bfrtip',
     orderCellsTop: true,
     buttons: [
-      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
-      'print','excel',
-
+      {extend:'copy',className: 'btn btn-darkblue',text:'<i class="fa-regular fa-copy"></i> Copy' },
+      {extend: 'excel',className: 'btn btn-green',text:'<i class="fa-regular fa-file-excel"></i> Excel'},
+      {extend:'pdf',className: 'btn btn-danger',text:'<i class="fa-regular fa-file-pdf"></i> Pdf',orientation: 'landscape',pageSize: 'A4'},
+      {extend:'print',className: 'btn btn-indigo',text:'<i class="fa-regular fa-print"></i> Print'}
     ],
     columns: [
       { 'data': 'item_image' , className: 'text-center'},//0
@@ -480,9 +482,10 @@ async function categoriesTable() {
     dom: 'Bfrtip',
     orderCellsTop: true,
     buttons: [
-      { extend: 'pdf',orientation: 'landscape',pageSize: 'A4'},
-      'print','excel',
-
+      {extend:'copy',className: 'btn btn-darkblue',text:'<i class="fa-regular fa-copy"></i> Copy' },
+      {extend: 'excel',className: 'btn btn-green',text:'<i class="fa-regular fa-file-excel"></i> Excel'},
+      {extend:'pdf',className: 'btn btn-danger',text:'<i class="fa-regular fa-file-pdf"></i> Pdf',orientation: 'landscape',pageSize: 'A4'},
+      {extend:'print',className: 'btn btn-indigo',text:'<i class="fa-regular fa-print"></i> Print'}
     ],
     columns: [
       { 'data': 'category_name' },//0
