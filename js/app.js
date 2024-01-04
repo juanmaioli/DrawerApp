@@ -467,10 +467,8 @@ async function itemsAll(usuarioId,categoriaId) {
 
 async function categoriesTable() {
   const url = `./api/categorylist-0`
-  // eslint-disable-next-line no-unused-vars, no-undef
   const table = $('#categoriesListTable').DataTable( {
     destroy: true,
-    // language: {'url': '/dataTables/Spanish.json'},
     ajax: {'url': url,'dataSrc': ''},
     deferRender: true,
     stateSave: true,
@@ -491,7 +489,8 @@ async function categoriesTable() {
       { 'data': 'category_color' },//1
       { 'data': 'DrawersPerCategory' , className: 'text-center'},//2
       { 'data': 'ItemsPerCategory' , className: 'text-center'},//3
-      { 'data': 'category_id' , className: 'text-center'},//4
+      { 'data': 'DrawersPrice' , className: 'text-end'},//4
+      { 'data': 'category_id' , className: 'text-center'},//5
     ],
     columnDefs: [
       {
@@ -530,6 +529,14 @@ async function categoriesTable() {
       },
       {
         'targets': 4,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const respuesta = `$${row['DrawersPrice']}`
+          return respuesta
+        }
+      },
+      {
+        'targets': 5,
         'data': 'download_link',
         'render': function ( data, type, row) {
           const respuesta = `<a href="category_view.php?id=${row['category_id']}" class="btn btn-outline-success"><i class="fa-regular fa-eye"></i></a>`

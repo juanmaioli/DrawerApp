@@ -23,6 +23,7 @@ include("head.php");
             <th>Color</th>
             <th>Drawers per Category</th>
             <th>Items per Category</th>
+            <th>Drawer Price</th>
             <th>Actions</th>
           </thead>
           <tbody class="small">
