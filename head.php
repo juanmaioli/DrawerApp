@@ -144,6 +144,7 @@ $conn->close();
             <li><a class="dropdown-item text-white" href="items.php">Items</a></li>
             <li><a class="dropdown-item text-white" href="categories.php">Categories</a></li>
             <li><a class="dropdown-item text-white" href="inches_mm.php">Inches to MM</a></li>
+            <li><a class="dropdown-item text-white" href="favs.php">Bookmarks</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>

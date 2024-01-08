@@ -549,6 +549,78 @@ async function categoriesTable() {
     ]
   })
 }
+async function bookmarksTable(){
+  const url = `./api/bookmarks-0`
+  const table = $('#bookmarksListTable').DataTable( {
+    destroy: true,
+    ajax: {'url': url,'dataSrc': ''},
+    deferRender: true,
+    // stateSave: true,
+    // stateDuration: 120,
+    pageLength: 30,
+    order: [],
+    paging: true,
+    responsive: true,
+    dom: 'Bfrtip',
+    orderCellsTop: true,
+    buttons: [
+      {extend:'copy',className: 'btn btn-darkblue',text:'<i class="fa-regular fa-copy"></i> Copy' },
+      {extend: 'excel',className: 'btn btn-green',text:'<i class="fa-regular fa-file-excel"></i> Excel'},
+      {extend:'pdf',className: 'btn btn-danger',text:'<i class="fa-regular fa-file-pdf"></i> Pdf',orientation: 'landscape',pageSize: 'A4'},
+      {extend:'print',className: 'btn btn-indigo',text:'<i class="fa-regular fa-print"></i> Print'}
+    ],
+    columns: [
+      // <th></th>
+      { 'data': 'fav_img' },//0
+      // <th>Title</th>
+      { 'data': 'fav_title' },//1
+      // <th>Price</th>
+      { 'data': 'fav_price' , className: 'text-end'},//2
+      // <th>Action</th>
+      { 'data': 'fav_link' , className: 'text-center'},//3
+    ],
+    columnDefs: [
+      {
+        'targets': 0,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          let srcIMG = 'default.png'
+          if (row['fav_img'].length > 0){srcIMG = `${row['fav_img']}`}
+          const respuesta =  `<img class="border border-orange mb-3 rounded-circle" src="${srcIMG}" alt="" width="90px">`
+          return respuesta
+        }
+      },
+      {
+        'targets': 1,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const fav_title = row['fav_title']
+          const fav_link = row['fav_link']
+          const respuesta =  `<a href="${fav_link}" class="text-decoration-none" target="_blank">${fav_title}</a>`
+          return respuesta
+        }
+      },
+      {
+        'targets': 2,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const fav_price = row['fav_price']
+          return `$ ${fav_price}`
+
+        }
+      },
+      {
+        'targets': 3,
+        'data': 'download_link',
+        'render': function ( data, type, row) {
+          const fav_link = row['fav_link']
+          const respuesta =  `<a href="${fav_link}" class="btn btn-indigo" target="_blank"> Open</a>`
+          return respuesta
+        }
+      },
+    ]
+  })
+}
 
 // eslint-disable-next-line no-unused-vars
 async function categoryView(categoryId) {

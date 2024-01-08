@@ -180,6 +180,9 @@ $tarea = $parametro[0];
       case 'categorytotal':
         $sql = "SELECT drawers_category.category_name as Categoria, drawers_category.category_id AS ID,sum(item_amount) AS Total FROM drawers_items INNER JOIN drawers_category ON drawers_items.item_category = drawers_category.category_id GROUP BY item_category order by total desc limit $parametro[1]";
         break;
+      case 'bookmarks':
+        $sql = "SELECT * FROM drawers_fav";
+        break;
       default:$sql  = "";
   }
 // echo $sql ;
